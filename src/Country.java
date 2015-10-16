@@ -9,4 +9,12 @@ public class Country {
         this.name = name;
         this.abbrev = abbrev;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAbbrev() {
+        return abbrev;
+    }
 }

@@ -1,6 +1,9 @@
+import jodd.json.JsonSerializer;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -9,9 +12,14 @@ public class Countries {
     public static void main(String[] args) {
         HashMap<String, ArrayList<Country>> listOfCountries = new HashMap<>();
 
+        parseData(listOfCountries);
+        writeData(listOfCountries, recieveInput());
+
+    }
+
+    static void parseData(HashMap<String, ArrayList<Country>> listOfCountries) {
         String countriesContent = readFile("countries.txt");
         String[] lines = countriesContent.split("\n"); //puts each line of text into an array
-
         for (String line : lines) {
             String[] columns = line.split("\\|"); //splits abbreviations and names and stores them in an array for each country
 
@@ -25,16 +33,20 @@ public class Countries {
                 list = new ArrayList<>();
                 list.add(country);
                 listOfCountries.put(countryLetter, list);
-            }
-            else { //adds the country to the list
+            } else { //adds the country to the list
                 list.add(country);
             }
         }
+    }
 
+    static String recieveInput () {
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("Enter a letter to return all countries that start with that letter");
-        String entry = scanner.nextLine().toLowerCase();
+        return scanner.nextLine().toLowerCase();
+    }
+
+    static void writeData(HashMap<String, ArrayList<Country>> listOfCountries, String entry) {
+        /*
         String output = "";
 
         if (listOfCountries.containsKey(entry)) { //searches for countries in the hashmap using the user input as the key
@@ -42,6 +54,11 @@ public class Countries {
                 output += (String.format("%s %s\n", place.abbrev, place.name)); //returns the search results and stores it in output
             }
         }
+        */
+        ArrayList<Country> list = listOfCountries.get(entry); //pulls arraylist out of hashmap
+        JsonSerializer serializer = new JsonSerializer();
+        String output = serializer.serialize(list);
+
         writeFile(String.format("%s_countries.txt", entry), output); //saves results to a file and names the file by the user input
     }
 
