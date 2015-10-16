@@ -20,7 +20,7 @@ public class Countries {
             Country country = new Country(countryName, abrv); //creates new Country object for each country
             String countryLetter = String.valueOf(country.name.charAt(0)); //stores first letter of a country
 
-            ArrayList<Country> list = listOfCountries.get(countryLetter); //returns a list of all countries that start with countryLetter
+            ArrayList<Country> list = listOfCountries.get(countryLetter); //uses countryLetter as the key to return ArrayList of countries
             if (list == null) { //create a list by the first letter of the country
                 list = new ArrayList<>();
                 list.add(country);
